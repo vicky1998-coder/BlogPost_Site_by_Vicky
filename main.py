@@ -197,11 +197,11 @@ def contact():
         message = contact_form.message.data
 
         with smtplib.SMTP("smtp.gmail.com") as connection:
-            # connection.starttls()
-            # connection.login(user=EMAIL, password=PASSWORD)
-            # connection.sendmail(from_addr=EMAIL,
-            #                     to_addrs=TO_EMAIL_ID,
-            #                     msg=f"Subject:New Message from BlogPost\n\nName: {name}\nEmail: {email}\nPhone No.: {phone}\nMessage: {message}")
+            connection.starttls()
+            connection.login(user=EMAIL, password=PASSWORD)
+            connection.sendmail(from_addr=EMAIL,
+                                to_addrs=TO_EMAIL_ID,
+                                msg=f"Subject:New Message from BlogPost\n\nName: {name}\nEmail: {email}\nPhone No.: {phone}\nMessage: {message}")
             flash("Successfully sent your message.")
             return redirect(url_for('contact', msg_sent=True))
     return render_template("contact.html", current_user=current_user, form=contact_form)
