@@ -14,16 +14,17 @@ from flask_gravatar import Gravatar
 import datetime as dt
 from functools import wraps
 from dotenv import load_dotenv
-import os 
+import os
+from mailer import Mailer
 
 app = Flask(__name__)
 
 # Environment Data
 load_dotenv()
-EMAIL = os.getenv("EMAIL")
-PASSWORD = os.getenv("PASSWORD")
-TO_EMAIL_ID = os.getenv("TO_EMAIL_ID")
-app.config['SECRET_KEY'] = os.getenv("BLOGPOST_SECRET_KEY")
+EMAIL = os.environ['EMAIL']
+PASSWORD = os.environ["PASSWORD"]
+TO_EMAIL_ID = os.environ["TO_MAIL_ID"]
+app.config['SECRET_KEY'] = os.environ["BLOGPOST_SECRET_KEY"]
 
 
 ckeditor = CKEditor(app)
