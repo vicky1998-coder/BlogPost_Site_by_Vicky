@@ -9,7 +9,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin, login_manager, login_user, LoginManager, login_required, current_user, logout_user
-from forms import CommentForm, CreatePostForm, RegisterForm, LoginForm
+from forms import CommentForm, CreatePostForm, RegisterForm, LoginForm, ContactForm
 from flask_gravatar import Gravatar
 import datetime as dt
 from functools import wraps
@@ -189,23 +189,25 @@ def about():
 
 @app.route("/contact", methods=["POST", "GET"])
 def contact():
-    if request.method == "POST":
-        name = request.form.get("user_name")
-        email = request.form.get("email")
-        phone = request.form.get("phone_number")
-        message = request.form.get("message")
+    contact_form = ContactForm()
+    if contact_form.validate_on_submit():
+        name = contact_form.name.data
+        email = contact_form.email.data
+        phone = contact_form.phone.data
+        message = contact_form.message.data
 
         with smtplib.SMTP("smtp.gmail.com") as connection:
-            connection.starttls()
-            connection.login(user=EMAIL, password=PASSWORD)
-            connection.sendmail(from_addr=EMAIL,
-                                to_addrs=TO_EMAIL_ID,
-                                msg=f"Subject:New Message from BlogPost\n\nName: {name}\nEmail: {email}\nPhone No.: {phone}\nMessage: {message}")
-            return render_template("contact.html", msg_sent=True)
-    return render_template("contact.html")
+            # connection.starttls()
+            # connection.login(user=EMAIL, password=PASSWORD)
+            # connection.sendmail(from_addr=EMAIL,
+            #                     to_addrs=TO_EMAIL_ID,
+            #                     msg=f"Subject:New Message from BlogPost\n\nName: {name}\nEmail: {email}\nPhone No.: {phone}\nMessage: {message}")
+            flash("Successfully sent your message.")
+            return redirect(url_for('contact', msg_sent=True))
+    return render_template("contact.html", current_user=current_user, form=contact_form)
 
 
-# Admin only decorator 
+# Admin only decorator
 def admin_only(fun):
     @wraps(fun)
     def decorated_function(*args, **kwargs):
