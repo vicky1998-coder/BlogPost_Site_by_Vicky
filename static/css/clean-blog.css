@@ -170,6 +170,7 @@ img::-moz-selection {
 #mainNav .navbar-brand {
   font-weight: 800;
   color: #343a40;
+  font-size: 20px;
 }
 
 #mainNav .navbar-toggler {
