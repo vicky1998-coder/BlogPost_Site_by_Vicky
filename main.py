@@ -23,7 +23,7 @@ app = Flask(__name__)
 load_dotenv()
 EMAIL = os.environ['EMAIL']
 PASSWORD = os.environ["PASSWORD"]
-TO_EMAIL_ID = os.environ["TO_MAIL_ID"]
+TO_EMAIL_ID = os.environ["TO_EMAIL_ID"]
 app.config['SECRET_KEY'] = os.environ["BLOGPOST_SECRET_KEY"]
 
 
